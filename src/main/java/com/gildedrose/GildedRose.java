@@ -16,11 +16,15 @@ class GildedRose {
 
     public void updateQuality() {
         for (final Item item : items) {
+            if (item.name.equals(SULFURAS)) {
+                // Sulfuras never needs to be sold or loses quality.
+                // Exit early so we don't have to take Sulfuras into account.
+                return;
+            }
+
             if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE_PASS)) {
                 if (item.quality > 0) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
-                    }
+                    item.quality = item.quality - 1;
                 }
             } else {
                 if (isNotOverThresholdQuality(item)) {
@@ -42,17 +46,13 @@ class GildedRose {
                 }
             }
 
-            if (!item.name.equals(SULFURAS)) {
-                item.sellIn = item.sellIn - 1;
-            }
+            item.sellIn = item.sellIn - 1;
 
             if (item.sellIn < 0) {
                 if (!item.name.equals(BRIE)) {
                     if (!item.name.equals(BACKSTAGE_PASS)) {
                         if (item.quality > 0) {
-                            if (!item.name.equals(SULFURAS)) {
-                                item.quality = item.quality - 1;
-                            }
+                            item.quality = item.quality - 1;
                         }
                     } else {
                         item.quality = 0;
