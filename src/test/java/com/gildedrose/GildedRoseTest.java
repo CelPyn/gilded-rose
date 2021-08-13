@@ -114,7 +114,7 @@ class GildedRoseTest {
         }
 
         @Test
-        void when_backstagePass_sellIn5_qualityIncreasesByTwo() {
+        void when_backstagePass_sellIn5_qualityIncreasesByThree() {
             final Item[] items = new Item[] { new Item(BACKSTAGE_PASS, 5, 10) };
             app = new GildedRose(items);
             updateQuality(1);
@@ -123,7 +123,7 @@ class GildedRoseTest {
         }
 
         @Test
-        void when_backstagePass_sellInLowerThan5_qualityIncreasesByTwo() {
+        void when_backstagePass_sellInLowerThan5_qualityIncreasesByThree() {
             final Item[] items = new Item[] { new Item(BACKSTAGE_PASS, 4, 10) };
             app = new GildedRose(items);
             updateQuality(1);
