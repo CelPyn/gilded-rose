@@ -22,37 +22,40 @@ class GildedRose {
                 return;
             }
 
-            if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE_PASS)) {
-                decrementQuality(item);
-            } else {
-                if (isNotOverThresholdQuality(item)) {
-                    item.quality = item.quality + 1;
-
-                    if (item.name.equals(BACKSTAGE_PASS)) {
-                        if (item.sellIn < 11) {
-                            incrementQuality(item);
-                        }
-
-                        if (item.sellIn < 6) {
-                            incrementQuality(item);
-                        }
-                    }
-                }
-            }
-
             decrementSellIn(item);
 
-            if (item.sellIn < 0) {
-                if (!item.name.equals(BRIE)) {
-                    if (!item.name.equals(BACKSTAGE_PASS)) {
-                        decrementQuality(item);
-                    } else {
-                        expireQuality(item);
-                    }
-                } else {
+            switch (item.name) {
+                case BRIE:
                     incrementQuality(item);
-                }
+
+                    if (isExpired(item)) {
+                        incrementQuality(item);
+                    }
+                    return;
+                case BACKSTAGE_PASS:
+                    if (isExpired(item)) {
+                        expireQuality(item);
+                        return;
+                    }
+
+                    incrementQuality(item);
+
+                    if (item.sellIn < 11) {
+                        incrementQuality(item);
+                    }
+
+                    if (item.sellIn < 6) {
+                        incrementQuality(item);
+                    }
+                    return;
+                default:
+                    decrementQuality(item);
+
+                    if (isExpired(item)) {
+                        decrementQuality(item);
+                    }
             }
+
         }
     }
 
@@ -82,5 +85,9 @@ class GildedRose {
 
     private void expireQuality(final Item item) {
         item.quality = 0;
+    }
+
+    private boolean isExpired(final Item item) {
+        return item.sellIn < 0;
     }
 }
