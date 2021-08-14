@@ -9,10 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GildedRoseTest {
 
-    private static final String NORMAL_ITEM = "normal";
+    private static final String NORMAL_ITEM = "Diamond Rapier";
     private static final String BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     private static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
+    private static final String CONJURED_ITEM = "Conjured Diamond Rapier";
 
     private GildedRose app;
 
@@ -37,7 +38,7 @@ class GildedRoseTest {
         }
 
         @Test
-        void when_normalItem_sellInOverDue_qualityDegradesByOne() {
+        void when_normalItem_sellInOverDue_qualityDegradesByTwo() {
             final Item[] items = new Item[] { new Item(NORMAL_ITEM, -2, 40) };
             app = new GildedRose(items);
             updateQuality(1);
@@ -154,6 +155,37 @@ class GildedRoseTest {
             updateQuality(5);
             assertThat(app.items[0].quality).isNotNull().isEqualTo(30);
             assertThat(app.items[0].sellIn).isNotNull().isEqualTo(10);
+        }
+    }
+
+    @Nested
+    class ConjuredItem {
+
+        @Test
+        void when_conjuredItem_sellInNotDue_qualityDegradesByTwo() {
+            final Item[] items = new Item[] { new Item(CONJURED_ITEM, 10, 40) };
+            app = new GildedRose(items);
+            updateQuality(1);
+            assertThat(app.items[0].quality).isNotNull().isEqualTo(38);
+            assertThat(app.items[0].sellIn).isNotNull().isEqualTo(9);
+        }
+
+        @Test
+        void when_conjuredItem_sellInOverDue_qualityDegradesByFour() {
+            final Item[] items = new Item[] { new Item(CONJURED_ITEM, -2, 40) };
+            app = new GildedRose(items);
+            updateQuality(1);
+            assertThat(app.items[0].quality).isNotNull().isEqualTo(36);
+            assertThat(app.items[0].sellIn).isNotNull().isEqualTo(-3);
+        }
+
+        @Test
+        void when_conjuredItem_qualityIsZero_neverNegative() {
+            final Item[] items = new Item[] { new Item(CONJURED_ITEM, -2, 0) };
+            app = new GildedRose(items);
+            updateQuality(1);
+            assertThat(app.items[0].quality).isNotNull().isEqualTo(0);
+            assertThat(app.items[0].sellIn).isNotNull().isEqualTo(-3);
         }
     }
 

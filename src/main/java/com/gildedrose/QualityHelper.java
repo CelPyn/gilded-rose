@@ -25,9 +25,14 @@ public final class QualityHelper {
         }
     }
 
-    public static void decrementQuality(final Item item) {
+    public static void decrementQuality(final Item item, final int amount) {
+        if (amount == 0) {
+            return;
+        }
+
         if (isNotZeroQuality(item)) {
             item.quality = item.quality - 1;
+            decrementQuality(item, amount - 1);
         }
     }
 

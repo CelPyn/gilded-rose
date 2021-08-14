@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.Locale;
+
 public final class ExpandedItemFactory {
 
     private static final String BRIE = "Aged Brie";
@@ -17,6 +19,10 @@ public final class ExpandedItemFactory {
             case SULFURAS:
                 return new LegendaryItem();
             default:
+                if (item.name.toLowerCase(Locale.ROOT).startsWith("conjured")) {
+                    return new ConjuredItem(item);
+                }
+
                 return new NormalItem(item);
         }
     }

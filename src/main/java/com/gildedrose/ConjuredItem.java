@@ -2,12 +2,12 @@ package com.gildedrose;
 
 import static com.gildedrose.QualityHelper.*;
 
-public class NormalItem implements ExpandedItem, Degradable {
+public class ConjuredItem implements ExpandedItem, Degradable {
 
     private final Item baseItem;
 
-    public NormalItem(final Item baseItem) {
-        this.baseItem = baseItem;
+    public ConjuredItem(final Item item) {
+        this.baseItem = item;
     }
 
     @Override
@@ -23,6 +23,6 @@ public class NormalItem implements ExpandedItem, Degradable {
 
     @Override
     public int getQualityDecrease() {
-        return 1;
+        return 2;
     }
 }
